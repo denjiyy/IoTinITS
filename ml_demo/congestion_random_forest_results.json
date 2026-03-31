@@ -1,0 +1,128 @@
+{
+  "dataset": {
+    "path": "/Users/denistabutov/PycharmProjects/IoTinITS/sofia_route_network.csv",
+    "source_rows": 91686,
+    "sampled_rows": 24000,
+    "feature_count": 67,
+    "target": "Three-class congestion band across departure hours 0-23",
+    "thresholds": {
+      "low_threshold": 0.16587463466666666,
+      "high_threshold": 0.263705328
+    },
+    "label_distribution": {
+      "low": 8000,
+      "medium": 8000,
+      "high": 8000
+    },
+    "hour_mode": "multi-hour",
+    "training_hours": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23
+    ]
+  },
+  "model": {
+    "type": "RandomForestClassifier",
+    "n_estimators": 64,
+    "max_depth": 14,
+    "min_samples_leaf": 3,
+    "max_samples": 0.6,
+    "class_weight": "balanced_subsample",
+    "random_seed": 42
+  },
+  "split": {
+    "train_rows": 19200,
+    "test_rows": 4800
+  },
+  "metrics": {
+    "accuracy": 0.8433333333333334,
+    "precision_macro": 0.8459014686230023,
+    "recall_macro": 0.8433333333333334,
+    "f1_macro": 0.8440389341317552,
+    "f1_weighted": 0.8440389341317552
+  },
+  "confusion_matrix": {
+    "low": {
+      "low": 1474,
+      "medium": 123,
+      "high": 3
+    },
+    "medium": {
+      "low": 113,
+      "medium": 1283,
+      "high": 204
+    },
+    "high": {
+      "low": 7,
+      "medium": 302,
+      "high": 1291
+    }
+  },
+  "top_features": [
+    {
+      "feature": "hour_of_day",
+      "importance": 0.4192921867958363
+    },
+    {
+      "feature": "congestion_profile_3h[7]",
+      "importance": 0.05004268909732759
+    },
+    {
+      "feature": "base_congestion_index",
+      "importance": 0.04335258138035539
+    },
+    {
+      "feature": "eco_factor",
+      "importance": 0.03418895819468029
+    },
+    {
+      "feature": "congestion_profile_3h[3]",
+      "importance": 0.034156568217151836
+    },
+    {
+      "feature": "congestion_profile_3h[4]",
+      "importance": 0.03206468246973433
+    },
+    {
+      "feature": "traffic_volume_aadt",
+      "importance": 0.03118009437092072
+    },
+    {
+      "feature": "congestion_profile_3h[1]",
+      "importance": 0.02646737720424698
+    },
+    {
+      "feature": "congestion_profile_3h[5]",
+      "importance": 0.02198731928387988
+    },
+    {
+      "feature": "peak_sensitivity",
+      "importance": 0.020612146880922954
+    }
+  ],
+  "artifacts": {
+    "model_path": "/Users/denistabutov/PycharmProjects/IoTinITS/ml_demo/congestion_random_forest.joblib",
+    "results_path": "/Users/denistabutov/PycharmProjects/IoTinITS/ml_demo/congestion_random_forest_results.json"
+  }
+}

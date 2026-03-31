@@ -1,0 +1,123 @@
+{
+  "dataset": {
+    "path": "/Users/denistabutov/PycharmProjects/IoTinITS/sofia_route_network.csv",
+    "rows": 91686,
+    "feature_count": 64,
+    "train_rows": 73348,
+    "test_rows": 18338,
+    "positive_rate": 0.018465196431298125,
+    "task": "Tabular binary classification: predict whether a road segment belongs to a synchronized green corridor"
+  },
+  "model": {
+    "type": "NumPy logistic regression",
+    "epochs": 200,
+    "learning_rate": 0.08,
+    "random_seed": 42
+  },
+  "metrics": {
+    "accuracy": 0.9993456211146253,
+    "precision": 1.0,
+    "recall": 0.9661971830985916,
+    "f1_score": 0.9828080229226361,
+    "true_positive": 343.0,
+    "true_negative": 17983.0,
+    "false_positive": 0.0,
+    "false_negative": 12.0
+  },
+  "training_history": [
+    {
+      "epoch": 0.0,
+      "loss": 0.6931471785599452
+    },
+    {
+      "epoch": 49.0,
+      "loss": 0.25514124171893926
+    },
+    {
+      "epoch": 99.0,
+      "loss": 0.14849759077082536
+    },
+    {
+      "epoch": 149.0,
+      "loss": 0.10503153100009475
+    },
+    {
+      "epoch": 199.0,
+      "loss": 0.08181216663286572
+    }
+  ],
+  "top_features": {
+    "positive": [
+      {
+        "feature": "green_profile_3h[7]",
+        "weight": 0.15976840798628994
+      },
+      {
+        "feature": "green_profile_3h[4]",
+        "weight": 0.15937354446336804
+      },
+      {
+        "feature": "green_profile_3h[1]",
+        "weight": 0.15920073498296444
+      },
+      {
+        "feature": "green_profile_3h[3]",
+        "weight": 0.15817337584719884
+      },
+      {
+        "feature": "green_profile_3h[0]",
+        "weight": 0.15764937610865382
+      },
+      {
+        "feature": "green_profile_3h[6]",
+        "weight": 0.15605954961644763
+      },
+      {
+        "feature": "green_profile_3h[5]",
+        "weight": 0.15367084492568656
+      },
+      {
+        "feature": "green_profile_3h[2]",
+        "weight": 0.152981853918861
+      }
+    ],
+    "negative": [
+      {
+        "feature": "road_class=tertiary",
+        "weight": -0.11684022905381615
+      },
+      {
+        "feature": "peak_sensitivity",
+        "weight": -0.08362545467011143
+      },
+      {
+        "feature": "heavy_vehicle_share",
+        "weight": -0.07008348440966235
+      },
+      {
+        "feature": "traffic_volume_aadt",
+        "weight": -0.06614567435050059
+      },
+      {
+        "feature": "congestion_profile_3h[0]",
+        "weight": -0.061943175987012926
+      },
+      {
+        "feature": "congestion_profile_3h[4]",
+        "weight": -0.055680789518221224
+      },
+      {
+        "feature": "eco_factor",
+        "weight": -0.05516734648098798
+      },
+      {
+        "feature": "road_class=trunk_link",
+        "weight": -0.04771377150026116
+      }
+    ]
+  },
+  "artifacts": {
+    "model_path": "/Users/denistabutov/PycharmProjects/IoTinITS/ml_demo/green_corridor_logreg_model.npz",
+    "results_path": "/Users/denistabutov/PycharmProjects/IoTinITS/ml_demo/green_corridor_demo_results.json"
+  }
+}

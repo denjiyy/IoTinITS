@@ -1,0 +1,103 @@
+{
+  "dataset": {
+    "path": "/Users/denistabutov/PycharmProjects/IoTinITS/sofia_route_network.csv",
+    "source_rows": 91686,
+    "sampled_rows": 24000,
+    "feature_count": 67,
+    "target": "Predicted travel_time_min across departure hours 0-23",
+    "hour_mode": "multi-hour",
+    "training_hours": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23
+    ]
+  },
+  "model": {
+    "type": "RandomForestRegressor",
+    "n_estimators": 48,
+    "max_depth": 12,
+    "min_samples_leaf": 4,
+    "max_samples": 0.55,
+    "random_seed": 42
+  },
+  "split": {
+    "train_rows": 19200,
+    "test_rows": 4800
+  },
+  "metrics": {
+    "mae_min": 0.004054009518013137,
+    "rmse_min": 0.013858743923552158,
+    "r2_score": 0.9797055523814392
+  },
+  "target_summary": {
+    "mean_test_travel_time_min": 0.09604097667462229,
+    "median_test_travel_time_min": 0.06195555374921198
+  },
+  "top_features": [
+    {
+      "feature": "length_km",
+      "importance": 0.8893101830611417
+    },
+    {
+      "feature": "avg_intersection_delay_s",
+      "importance": 0.05599561198981492
+    },
+    {
+      "feature": "free_flow_speed_kmh",
+      "importance": 0.029055887515503864
+    },
+    {
+      "feature": "hour_of_day",
+      "importance": 0.012568609825236854
+    },
+    {
+      "feature": "speed_limit_kmh",
+      "importance": 0.004620218129448341
+    },
+    {
+      "feature": "traffic_volume_aadt",
+      "importance": 0.0006059302039636495
+    },
+    {
+      "feature": "curb_activity_profile_3h[4]",
+      "importance": 0.000601528697918244
+    },
+    {
+      "feature": "congestion_profile_3h[1]",
+      "importance": 0.00046291760039214006
+    },
+    {
+      "feature": "to_lon",
+      "importance": 0.0004091106835890199
+    },
+    {
+      "feature": "congestion_profile_3h[6]",
+      "importance": 0.0003787780848554787
+    }
+  ],
+  "artifacts": {
+    "model_path": "/Users/denistabutov/PycharmProjects/IoTinITS/ml_demo/travel_time_random_forest.joblib",
+    "results_path": "/Users/denistabutov/PycharmProjects/IoTinITS/ml_demo/travel_time_random_forest_results.json"
+  }
+}

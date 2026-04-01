@@ -14,13 +14,19 @@ A Streamlit routing app with two routing backends and two trip input modes:
 - `generate_route_network.py`: converts the local OSM extract into the routable CSV used by the app.
 - `sofia_osm_overpass.json`: local Sofia road extract from Overpass.
 - `sofia_route_network.csv`: generated routing dataset consumed by the app.
-- `ml_demo/`: separate tabular ML demonstration project for the academic submission requirement.
+- `ml_demo/`: primary academic ML demo with a real public traffic dataset, plus supplemental Sofia-specific models used by the app.
 
 ## Academic Demo
 
-For the course requirement about a small ML/FastAI-style demonstration project, see:
+For the course requirement about a small ML/FastAI-style demonstration project, the strongest submission-ready path is now:
 
 - [ml_demo/README.md](./ml_demo/README.md)
+- [ml_demo/uci_traffic_volume_demo.ipynb](./ml_demo/uci_traffic_volume_demo.ipynb)
+- [ml_demo/train_uci_traffic_models.py](./ml_demo/train_uci_traffic_models.py)
+- [ml_demo/uci_traffic_demo_results.json](./ml_demo/uci_traffic_demo_results.json)
+
+Supplemental Sofia-specific notebooks remain available if you want to show how ML is also threaded into the custom routing app:
+
 - [ml_demo/green_corridor_tabular_demo.ipynb](./ml_demo/green_corridor_tabular_demo.ipynb)
 - [ml_demo/travel_time_random_forest_demo.ipynb](./ml_demo/travel_time_random_forest_demo.ipynb)
 - [ml_demo/congestion_random_forest_demo.ipynb](./ml_demo/congestion_random_forest_demo.ipynb)

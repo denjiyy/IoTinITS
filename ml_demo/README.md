@@ -1,128 +1,135 @@
 # Демонстрационен ML проект
 
-Тази папка съдържа отделен малък демонстрационен tabular ML проект, така че репото да покрива академичното изискване за train-нат модел и кратко описание на dataset, model и result. Задачата е от типа **таблични данни**, което съответства на един от стандартните типове задачи, разглеждани в курса на FastAI.
+Тази папка вече съдържа **основния academic demo**, който е най-подходящ за предаване към курса: реален **tabular ML** проект върху външен публичен dataset от транспортната област. Това прави submission-а много по-силен, защото dataset-ът, target-ът и метриките са независими от вътрешната логика на приложението.
+
+## Препоръчителен вариант за предаване
+
+При предаване към курса препоръчителният фокус е:
+
+- [uci_traffic_volume_demo.ipynb](./uci_traffic_volume_demo.ipynb)
+- [train_uci_traffic_models.py](./train_uci_traffic_models.py)
+- [uci_traffic_demo_results.json](./uci_traffic_demo_results.json)
+- [data/metro_interstate_traffic_volume.csv.gz](./data/metro_interstate_traffic_volume.csv.gz)
 
 ## Dataset
 
-Използван е файлът [sofia_route_network.csv](../sofia_route_network.csv), който съдържа **91,686** пътни сегмента за София. Всеки ред описва отделен road segment с геометрия, клас на пътя, ограничение на скоростта, трафик-индикатори, green-wave характеристики и допълнителни профилни масиви по време на деня.
+Основният dataset е **Metro Interstate Traffic Volume** от **UCI Machine Learning Repository**:
 
-За демонстрационната задача таргетът е:
+- Source: <https://archive.ics.uci.edu/dataset/492/metro+interstate+traffic+volume>
+- DOI: `10.24432/C5X60B`
+- License: `CC BY 4.0`
+- Citation: `Hogue, J. (2019). Metro Interstate Traffic Volume [Dataset]. UCI Machine Learning Repository. https://doi.org/10.24432/C5X60B`
 
-- `green_corridor`
+Локално dataset-ът е запазен като:
 
-Това е **binary classification** задача: моделът предсказва дали даден пътен сегмент принадлежи към синхронизиран green corridor.
+- [metro_interstate_traffic_volume.csv.gz](./data/metro_interstate_traffic_volume.csv.gz)
+
+Той съдържа **48,204** почасови наблюдения за трафика по westbound I-94 в района на Minneapolis-St Paul за периода **2012-2018**. Използваните входни признаци включват:
+
+- метеорологични измервания: `temp`, `rain_1h`, `snow_1h`, `clouds_all`
+- времеви характеристики: дата, час, ден от седмицата, месец, weekend indicator
+- категориални признаци: `holiday`, `weather_main`, `weather_description`
+
+Това е напълно валидна **tabular data** задача в духа на задачите от FastAI курса.
 
 ## Модели
 
-Добавени са два отделни таблични модела:
+Върху този dataset са обучени **два модела**, и двата с коректен **chronological split 70/15/15**, за да няма temporal leakage:
 
-### 1. Green Corridor Classifier
+### 1. Ridge Regressor
 
-Обучен е лек **logistic regression** модел, реализиран с **NumPy**, върху табличните характеристики на dataset-а:
+Моделът предсказва:
 
-- числови признаци: координати, дължина, speed limit, congestion, delay, eco factor и др.
-- one-hot encoded категориални признаци: `road_class` и `direction`
-- профилни масиви: `congestion_profile_3h`, `green_profile_3h`, `curb_activity_profile_3h`, `weekday_volume_profile`
+- `traffic_volume`
 
-Скриптът за обучение е:
+Използван е:
 
-- [train_green_corridor_demo.py](./train_green_corridor_demo.py)
+- `Ridge(alpha=2.0)`
 
-Той записва:
+Базов модел за сравнение:
 
-- train-натите параметри в `green_corridor_logreg_model.npz`
-- метрики и summary в `green_corridor_demo_results.json`
+- `DummyRegressor(strategy="median")`
 
-### 2. Travel Time Regressor
+### 2. Traffic Band Classifier
 
-Добавен е и **RandomForestRegressor** модел върху същия dataset, който предсказва:
-
-- `travel_time_min` за road segment в **multi-hour** сценарий (`hour=0..23`)
-
-Скриптът за обучение е:
-
-- [train_travel_time_random_forest.py](./train_travel_time_random_forest.py)
-
-Той записва:
-
-- train-натия модел в `travel_time_random_forest.joblib`
-- regression metrics в `travel_time_random_forest_results.json`
-
-### 3. Congestion Classifier
-
-Добавен е и **RandomForestClassifier** модел върху същия dataset, който предсказва:
-
-- `congestion band` при **multi-hour** сценарий (`hour=0..23`)
-
-Таргетът е формулиран като 3-класова задача:
+Втората задача е класификация на трафика в три класа:
 
 - `low`
 - `medium`
 - `high`
 
-Класовете са получени от динамичния congestion score, дискретизиран по tercile thresholds върху извадка от dataset-а.
+Класовете се формират по train quantiles върху `traffic_volume`, с прагове:
 
-Скриптът за обучение е:
+- `low <= 2157`
+- `medium <= 4555`
+- `high > 4555`
 
-- [train_congestion_random_forest.py](./train_congestion_random_forest.py)
+Използван е:
 
-Той записва:
+- `LogisticRegression(max_iter=2500)`
 
-- train-натия модел в `congestion_random_forest.joblib`
-- classification metrics в `congestion_random_forest_results.json`
+Базов модел за сравнение:
+
+- `DummyClassifier(strategy="most_frequent")`
 
 ## Резултат
 
-След обучение върху train/test split 80/20, проектът постига много силен резултат върху test частта на данните. Конкретните метрики са записани в:
+Основните test метрики са:
 
-- [green_corridor_demo_results.json](./green_corridor_demo_results.json)
+### Regression
 
-Актуалният резултат за classifier-а е:
+- Ridge MAE: **825.19**
+- Ridge RMSE: **1056.85**
+- Ridge R²: **0.7162**
 
-- Accuracy: **0.9993**
-- Precision: **1.0000**
-- Recall: **0.9662**
-- F1 score: **0.9828**
+Сравнение с baseline:
 
-Конфузионната матрица в count формат е:
+- Dummy MAE: **1737.65**
+- Dummy RMSE: **1984.41**
+- Dummy R²: **-0.0007**
 
-- TP: **343**
-- TN: **17,983**
-- FP: **0**
-- FN: **12**
+### Classification
 
-Актуалният резултат за Random Forest regresssor-а е:
+- Logistic Regression Accuracy: **0.7960**
+- Precision macro: **0.7954**
+- Recall macro: **0.7950**
+- F1 macro: **0.7951**
 
-- MAE: **0.0041 min**
-- RMSE: **0.0139 min**
-- R²: **0.9797**
+Сравнение с baseline:
 
-Актуалният резултат за Random Forest congestion classifier-а е:
+- Dummy Accuracy: **0.3250**
+- Dummy F1 macro: **0.1635**
 
-- Accuracy: **0.8433**
-- Precision macro: **0.8459**
-- Recall macro: **0.8433**
-- F1 macro: **0.8440**
+Това показва ясно, че и двата train-нати модела учат смислени зависимости върху реален транспортен dataset и превъзхождат базовите решения с голяма разлика.
 
-Най-важното за предаване е:
+## Кратък submission summary
 
-- Dataset: `sofia_route_network.csv`
-- Модели:
-  - NumPy logistic regression за `green_corridor` classification
-  - RandomForestRegressor за `travel_time_min` regression
-  - RandomForestClassifier за `congestion band` classification
-- Резултат:
-  - accuracy / precision / recall / F1 за classifier-а
-  - MAE / RMSE / R² за regressor-а
-  - accuracy / macro precision / macro recall / macro F1 за congestion classifier-а
+Ако трябва да предадеш съвсем кратък текст по условие, можеш да използваш следното:
+
+- Dataset: `Metro Interstate Traffic Volume` от UCI, 48,204 почасови наблюдения за трафик, време и празници
+- Модели: `Ridge` за regression на `traffic_volume` и `LogisticRegression` за класификация на traffic bands
+- Резултат: `R² = 0.7162` за regression и `Accuracy = 0.7960`, `F1 macro = 0.7951` за classification върху test split
 
 ## Стартиране
 
+Ако искаш да пресъздадеш резултатите локално:
+
 ```bash
-python3 ml_demo/train_green_corridor_demo.py
-python3 ml_demo/train_travel_time_random_forest.py
-python3 ml_demo/train_congestion_random_forest.py
+python3 ml_demo/train_uci_traffic_models.py
 ```
 
-Този demo project е отделен от основното Streamlit приложение и съществува специално, за да покрие изискването за малък ML/FastAI-style проект с train-нат модел и описан резултат.
-Същите train-нати артефакти вече се използват и директно в основното приложение, където добавят ML ETA, predicted traffic и corridor confidence върху локалния Sofia routing flow.
+Ако искаш отново да изтеглиш dataset-а от оригиналния източник:
+
+```bash
+python3 ml_demo/download_uci_traffic_dataset.py
+```
+
+## Допълнителни project-specific модели
+
+В папката остават и по-старите модели върху [sofia_route_network.csv](../sofia_route_network.csv), защото те са полезни за самото Streamlit приложение:
+
+- [train_green_corridor_demo.py](./train_green_corridor_demo.py)
+- [train_travel_time_random_forest.py](./train_travel_time_random_forest.py)
+- [train_congestion_random_forest.py](./train_congestion_random_forest.py)
+
+Те са добри като **допълнителна техническа част** към темата за IoT в интелигентните транспортни системи, но за академичното предаване вече е по-силно да се акцентира върху UCI dataset-а, защото той е външен, реален и по-лесен за защита.

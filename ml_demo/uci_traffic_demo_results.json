@@ -1,0 +1,312 @@
+{
+  "dataset": {
+    "path": "/Users/denistabutov/PycharmProjects/IoTinITS/ml_demo/data/metro_interstate_traffic_volume.csv.gz",
+    "source_url": "https://archive.ics.uci.edu/dataset/492/metro+interstate+traffic+volume",
+    "doi": "10.24432/C5X60B",
+    "license": "CC BY 4.0",
+    "citation": "Hogue, J. (2019). Metro Interstate Traffic Volume [Dataset]. UCI Machine Learning Repository. https://doi.org/10.24432/C5X60B",
+    "rows": 48204,
+    "original_columns": [
+      "holiday",
+      "temp",
+      "rain_1h",
+      "snow_1h",
+      "clouds_all",
+      "weather_main",
+      "weather_description",
+      "date_time",
+      "traffic_volume"
+    ],
+    "feature_fields": [
+      "holiday",
+      "weather_main",
+      "weather_description",
+      "temp",
+      "rain_1h",
+      "snow_1h",
+      "clouds_all",
+      "hour",
+      "dayofweek",
+      "month",
+      "year",
+      "day",
+      "is_weekend",
+      "hour_sin",
+      "hour_cos",
+      "month_sin",
+      "month_cos"
+    ],
+    "target": "traffic_volume",
+    "task_family": "Tabular data",
+    "description": "Hourly highway traffic volume with weather and holiday features for westbound I-94."
+  },
+  "split": {
+    "strategy": "Chronological 70/15/15 split to avoid temporal leakage",
+    "train": {
+      "rows": 33742,
+      "start": "2012-10-02T09:00:00",
+      "end": "2017-05-17T20:00:00"
+    },
+    "validation": {
+      "rows": 7231,
+      "start": "2017-05-17T20:00:00",
+      "end": "2018-01-25T18:00:00"
+    },
+    "test": {
+      "rows": 7231,
+      "start": "2018-01-25T19:00:00",
+      "end": "2018-09-30T23:00:00"
+    }
+  },
+  "regression_task": {
+    "target": "traffic_volume",
+    "baseline_model": "DummyRegressor(strategy='median')",
+    "trained_model": "Ridge(alpha=2.0)",
+    "validation_metrics": {
+      "baseline_dummy_regressor": {
+        "mae": 1715.7418061125709,
+        "rmse": 1965.9021123486145,
+        "r2_score": -2.099765479290916e-05
+      },
+      "ridge_regressor": {
+        "mae": 821.3296772955364,
+        "rmse": 1069.5514461232663,
+        "r2_score": 0.7040020529474147
+      }
+    },
+    "test_metrics": {
+      "baseline_dummy_regressor": {
+        "mae": 1737.6542663532016,
+        "rmse": 1984.4132747700685,
+        "r2_score": -0.0007054082133046702
+      },
+      "ridge_regressor": {
+        "mae": 825.1871313454361,
+        "rmse": 1056.8552700950754,
+        "r2_score": 0.7161603683944724
+      }
+    },
+    "top_coefficients": [
+      {
+        "feature": "num__hour_cos",
+        "coefficient": -1482.5390046920324
+      },
+      {
+        "feature": "cat__weather_description_thunderstorm with drizzle",
+        "coefficient": -846.2233947072942
+      },
+      {
+        "feature": "num__is_weekend",
+        "coefficient": -525.3592993188345
+      },
+      {
+        "feature": "cat__holiday_New Years Day",
+        "coefficient": 466.5610786088445
+      },
+      {
+        "feature": "cat__weather_description_shower snow",
+        "coefficient": 447.63272577718976
+      },
+      {
+        "feature": "cat__weather_description_thunderstorm with light drizzle",
+        "coefficient": 444.1490442550332
+      },
+      {
+        "feature": "num__hour",
+        "coefficient": 405.82701376306693
+      },
+      {
+        "feature": "cat__weather_description_sleet",
+        "coefficient": -335.07746579801335
+      },
+      {
+        "feature": "cat__weather_description_proximity shower rain",
+        "coefficient": 312.67318111190633
+      },
+      {
+        "feature": "cat__weather_description_snow",
+        "coefficient": -295.60007337583784
+      }
+    ],
+    "artifacts": {
+      "model_path": "/Users/denistabutov/PycharmProjects/IoTinITS/ml_demo/uci_traffic_volume_ridge.joblib"
+    }
+  },
+  "classification_task": {
+    "target": "traffic volume band (low / medium / high)",
+    "class_names": [
+      "low",
+      "medium",
+      "high"
+    ],
+    "low_threshold": 2157.0,
+    "high_threshold": 4555.0,
+    "baseline_model": "DummyClassifier(strategy='most_frequent')",
+    "trained_model": "LogisticRegression(max_iter=2500)",
+    "validation_metrics": {
+      "baseline_dummy_classifier": {
+        "accuracy": 0.3378509196515005,
+        "precision_macro": 0.11261697321716684,
+        "recall_macro": 0.3333333333333333,
+        "f1_macro": 0.16835504100337675
+      },
+      "logistic_regression_classifier": {
+        "accuracy": 0.7900705296639469,
+        "precision_macro": 0.7896074296294181,
+        "recall_macro": 0.7925688835917999,
+        "f1_macro": 0.7902325190721536
+      }
+    },
+    "test_metrics": {
+      "baseline_dummy_classifier": {
+        "accuracy": 0.32498962799059605,
+        "precision_macro": 0.10832987599686535,
+        "recall_macro": 0.3333333333333333,
+        "f1_macro": 0.16351807396583515
+      },
+      "logistic_regression_classifier": {
+        "accuracy": 0.7960171483888812,
+        "precision_macro": 0.7954468122197175,
+        "recall_macro": 0.7949996011281639,
+        "f1_macro": 0.7951460298346636
+      }
+    },
+    "confusion_matrix_test": {
+      "low": {
+        "low": 2040,
+        "medium": 328,
+        "high": 17
+      },
+      "medium": {
+        "low": 370,
+        "medium": 1642,
+        "high": 338
+      },
+      "high": {
+        "low": 7,
+        "medium": 415,
+        "high": 2074
+      }
+    },
+    "top_coefficients_by_class": {
+      "low": [
+        {
+          "feature": "num__hour_cos",
+          "coefficient": 3.175922610448228
+        },
+        {
+          "feature": "num__hour_sin",
+          "coefficient": 1.2023920980495635
+        },
+        {
+          "feature": "num__is_weekend",
+          "coefficient": 1.1838205045754255
+        },
+        {
+          "feature": "cat__weather_description_snow",
+          "coefficient": 0.7118549728132239
+        },
+        {
+          "feature": "cat__holiday_None",
+          "coefficient": -0.6279445950145149
+        },
+        {
+          "feature": "cat__weather_description_very heavy rain",
+          "coefficient": 0.5864156701112133
+        },
+        {
+          "feature": "num__rain_1h",
+          "coefficient": 0.3415833999198884
+        },
+        {
+          "feature": "cat__weather_description_heavy snow",
+          "coefficient": -0.3361937955499932
+        }
+      ],
+      "medium": [
+        {
+          "feature": "num__hour",
+          "coefficient": 1.0164667668425154
+        },
+        {
+          "feature": "num__hour_cos",
+          "coefficient": -0.8073820388553382
+        },
+        {
+          "feature": "num__rain_1h",
+          "coefficient": -0.6728297914540193
+        },
+        {
+          "feature": "cat__weather_description_very heavy rain",
+          "coefficient": -0.5272027896089957
+        },
+        {
+          "feature": "cat__weather_description_thunderstorm with light rain",
+          "coefficient": -0.5083416234667841
+        },
+        {
+          "feature": "cat__holiday_None",
+          "coefficient": 0.4405681600137966
+        },
+        {
+          "feature": "cat__weather_description_thunderstorm with drizzle",
+          "coefficient": -0.42104880022660596
+        },
+        {
+          "feature": "cat__weather_description_light rain and snow",
+          "coefficient": -0.38241998128139526
+        }
+      ],
+      "high": [
+        {
+          "feature": "num__hour_cos",
+          "coefficient": -2.368540571592827
+        },
+        {
+          "feature": "num__is_weekend",
+          "coefficient": -1.4112539190873716
+        },
+        {
+          "feature": "num__hour_sin",
+          "coefficient": -1.1475695897529492
+        },
+        {
+          "feature": "num__hour",
+          "coefficient": -1.1051027928729462
+        },
+        {
+          "feature": "cat__weather_description_snow",
+          "coefficient": -0.7267744264001459
+        },
+        {
+          "feature": "cat__weather_description_light shower snow",
+          "coefficient": -0.3783014942092993
+        },
+        {
+          "feature": "num__rain_1h",
+          "coefficient": 0.33124639153412444
+        },
+        {
+          "feature": "cat__weather_description_light rain and snow",
+          "coefficient": 0.3142834782139028
+        }
+      ]
+    },
+    "artifacts": {
+      "model_path": "/Users/denistabutov/PycharmProjects/IoTinITS/ml_demo/uci_traffic_congestion_logreg.joblib"
+    }
+  },
+  "submission_summary": {
+    "dataset": "UCI Metro Interstate Traffic Volume",
+    "models": [
+      "Ridge regression for hourly traffic volume prediction",
+      "Logistic regression for low/medium/high traffic band classification"
+    ],
+    "result": {
+      "ridge_test_r2": 0.7161603683944724,
+      "ridge_test_rmse": 1056.8552700950754,
+      "logreg_test_accuracy": 0.7960171483888812,
+      "logreg_test_f1_macro": 0.7951460298346636
+    }
+  }
+}

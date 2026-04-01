@@ -1,10 +1,8 @@
 # Демонстрационен ML проект
 
-Тази папка вече съдържа **основния academic demo**, който е най-подходящ за предаване към курса: реален **tabular ML** проект върху външен публичен dataset от транспортната област. Това прави submission-а много по-силен, защото dataset-ът, target-ът и метриките са независими от вътрешната логика на приложението.
+Тази папка вече съдържа **основния academic demo**: реален **tabular ML** проект върху външен публичен dataset от транспортната област. Dataset-ът, target-ът и метриките са независими от вътрешната логика на приложението.
 
-## Препоръчителен вариант за предаване
-
-При предаване към курса препоръчителният фокус е:
+## Препоръчителният фокус е:
 
 - [uci_traffic_volume_demo.ipynb](./uci_traffic_volume_demo.ipynb)
 - [train_uci_traffic_models.py](./train_uci_traffic_models.py)
@@ -29,8 +27,6 @@
 - метеорологични измервания: `temp`, `rain_1h`, `snow_1h`, `clouds_all`
 - времеви характеристики: дата, час, ден от седмицата, месец, weekend indicator
 - категориални признаци: `holiday`, `weather_main`, `weather_description`
-
-Това е напълно валидна **tabular data** задача в духа на задачите от FastAI курса.
 
 ## Модели
 
@@ -104,8 +100,6 @@
 
 ## Кратък submission summary
 
-Ако трябва да предадеш съвсем кратък текст по условие, можеш да използваш следното:
-
 - Dataset: `Metro Interstate Traffic Volume` от UCI, 48,204 почасови наблюдения за трафик, време и празници
 - Модели: `Ridge` за regression на `traffic_volume` и `LogisticRegression` за класификация на traffic bands
 - Резултат: `R² = 0.7162` за regression и `Accuracy = 0.7960`, `F1 macro = 0.7951` за classification върху test split
@@ -131,5 +125,3 @@ python3 ml_demo/download_uci_traffic_dataset.py
 - [train_green_corridor_demo.py](./train_green_corridor_demo.py)
 - [train_travel_time_random_forest.py](./train_travel_time_random_forest.py)
 - [train_congestion_random_forest.py](./train_congestion_random_forest.py)
-
-Те са добри като **допълнителна техническа част** към темата за IoT в интелигентните транспортни системи, но за академичното предаване вече е по-силно да се акцентира върху UCI dataset-а, защото той е външен, реален и по-лесен за защита.

@@ -189,26 +189,41 @@ st.markdown(
             background: var(--panel-strong);
             box-shadow: 0 12px 24px rgba(17, 24, 39, 0.04);
         }
-        div[data-testid="stMetricLabel"],
-        div[data-testid="stMetricLabel"] *,
-        div[data-testid="stMetricLabel"] p,
-        div[data-testid="stMetricLabel"] label,
-        div[data-testid="stMetricLabel"] span {
+        [data-testid="stMetricLabel"],
+        [data-testid="stMetricLabel"] *,
+        [data-testid="stMetricLabel"] p,
+        [data-testid="stMetricLabel"] label,
+        [data-testid="stMetricLabel"] span {
             color: #111111 !important;
             -webkit-text-fill-color: #111111 !important;
             font-weight: 600 !important;
             opacity: 1 !important;
             background: transparent !important;
         }
-        div[data-testid="stMetricValue"],
-        div[data-testid="stMetricValue"] *,
-        div[data-testid="stMetricValue"] > div,
-        div[data-testid="stMetricValue"] p,
-        div[data-testid="stMetricValue"] span {
+        [data-testid="stMetricValue"],
+        [data-testid="stMetricValue"] *,
+        [data-testid="stMetricValue"] > div,
+        [data-testid="stMetricValue"] p,
+        [data-testid="stMetricValue"] span {
             color: #111111 !important;
             -webkit-text-fill-color: #111111 !important;
             opacity: 1 !important;
             background: transparent !important;
+        }
+        [data-testid="stWidgetLabel"],
+        [data-testid="stWidgetLabel"] *,
+        [data-testid="stCaptionContainer"],
+        [data-testid="stCaptionContainer"] *,
+        [data-testid="stMetricDeltaDescription"],
+        [data-testid="stMetricDeltaDescription"] * {
+            color: var(--muted) !important;
+            -webkit-text-fill-color: var(--muted) !important;
+            opacity: 1 !important;
+        }
+        section[data-testid="stSidebar"] [data-testid="stWidgetLabel"],
+        section[data-testid="stSidebar"] [data-testid="stWidgetLabel"] * {
+            color: #e8ece8 !important;
+            -webkit-text-fill-color: #e8ece8 !important;
         }
         div[data-testid="stMetric"] ::selection {
             color: #111111 !important;
